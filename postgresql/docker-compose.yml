@@ -18,17 +18,19 @@ services:
       dockerfile: Dockerfile
     image: ${DOCKER_REGISTRY:-registry.docker.local}/postgres:9.6.1-alpine
     restart: always
-    container_name: ${POSTGRESQL_HOSTNAME:-local-postgresql}
-    hostname: ${POSTGRESQL_HOSTNAME:-local-postgresql}
+    container_name: ${POSTGRESQL_HOSTNAME:-postgresql.local}
+    hostname: ${POSTGRESQL_HOSTNAME:-postgresql.local}
     environment:
     - POSTGRES_USER=${POSTGRES_USER:-user}
     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-user_pass}
     ports:
-    - "5432:5432"
+    - "${POSTGRESQL_EXTERNAL_PORT:-5432}:${POSTGRESQL_PORT:-5432}"
+
     volumes:
     - postgresql:/var/lib/postgresql
     # This needs explicit mapping due to https://github.com/docker-library/postgres/blob/4e48e3228a30763913ece952c611e5e9b95c8759/Dockerfile.template#L52
     - postgresql_data:/var/lib/postgresql/data
+    - ./init.sh:/docker-entrypoint-initdb.d/init.sh
 
 volumes:
   postgresql:

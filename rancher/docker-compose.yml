@@ -5,12 +5,18 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ${DOCKER_REGISTRY:-registry.docker.local}/rancher-server:v1.5.2
+    image: ${DOCKER_REGISTRY:-registry.docker.local}/rancher-server:v1.6.0
     restart: unless-stopped
     container_name: ${RANCHER_SERVER_HOSTNAME:-local-rancher-server}
     hostname: ${RANCHER_SERVER_HOSTNAME:-local-rancher-server}
     ports:
-    - "18080:8080"
+    - "${RANCHER_SERVER_EXTERNAL_PORT:-18080}:${RANCHER_SERVER_PORT:-8080}"
+    volumes:
+    - rancher-volume:/var/lib/mysql
+    - rancher-volume:/var/log/mysql
+    - rancher-volume:/var/lib/cattle
+volumes:
+  rancher-volume: {}
 
 networks:
   default:
