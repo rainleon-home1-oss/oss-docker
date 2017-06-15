@@ -1,2 +1,2 @@
 
-FROM rancher/server:v1.6.0
+FROM rancher/server:v1.6.2

@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ${DOCKER_REGISTRY:-registry.docker.local}/rancher-server:v1.6.0
+    image: ${DOCKER_REGISTRY:-registry.docker.local}/rancher-server:v1.6.2
     restart: unless-stopped
     container_name: ${RANCHER_SERVER_HOSTNAME:-local-rancher-server}
     hostname: ${RANCHER_SERVER_HOSTNAME:-local-rancher-server}
